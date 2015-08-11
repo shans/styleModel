@@ -1,0 +1,5 @@
+digraph test {
+  imports="['./style-phases']";
+  input -> fileToString -> ejsFabricator -> trace -> writeStringFile;
+
+}

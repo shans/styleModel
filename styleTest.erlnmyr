@@ -1,0 +1,9 @@
+digraph test {
+
+  input [data="styleTest.ejs"];
+  input -> fileToString -> ejsFabricator -> trace -> traceFilter -> tracePIDSplitter -> traceTIDSplitter;
+  traceTIDSplitter -> traceTree -> traceAnalyser -> amalgamate -> log;
+
+  traceFilter [traceEvents="['HTMLDocumentParser::processParsedChunkFromBackgroundParser','Document::updateStyle','FrameView::performLayout']"];
+  tracePrettyPrint [showTrace="false"];
+}

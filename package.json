@@ -1,0 +1,8 @@
+{
+  "name": "style-model",
+  "version": "0.0.0",
+  "description": "Erlenmeyer experiments to build up a performance model of blink's style engine",
+  "dependencies": {
+    "erlnmyr": "git://github.com/GoogleChrome/erlnmyr"
+  }
+}
