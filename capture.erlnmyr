@@ -1,9 +1,15 @@
 digraph test {
   imports="['./style-phases']";
   optionAliases="input=input.data";
-  input -> fileToString -> dateTag -> hostnameTag -> ejsFabricator -> mergeTags -> trace -> log -> jsonStringify -> writeStringFile;
+  input -> fileToString -> dateTag -> hostnameTag -> ejsFabricator -> trace -> mergeTags -> log -> jsonStringify -> writeStringFile;
+  trace -> mergeTags_1 -> log_1 -> traceFilter -> jsonStringify_1 -> writeStringFile_1;
 
-  mergeTags [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "traces/$1-$2-$3-$4.trace", output="filename"]
+  mergeTags [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "raw_traces/$1-$2-$3-$4.trace", output="filename"]
+  mergeTags_1 [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "traces/$1-$2-$3-$4.trace", output="filename"]
   log [tags = "['filename']", justTags = "true"];
+  log_1 [tags = "['filename']", justTags = "true"];
   writeStringFile [tag="filename"];
+  writeStringFile_1 [tag="filename"];
+  traceFilter [traceEvents="['HTMLDocumentParser::processParsedChunkFromBackgroundParser','Document::updateStyle','FrameView::performLayout']"];
+
 }

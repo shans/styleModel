@@ -25,6 +25,29 @@ library(ggplot2)
 
 ```
 
+Comparison of single selectors ".a .c", ".b ~ .c", and ".c" matching against variable number of element subtrees:
+
+```
+<div class='a'>
+  <div class='b'>
+  </div>
+  <div class='c'>
+  </div>
+</div>
+```
+
+Three properties are set in a single rule:
+
+```
+%SEL {
+  background-color: red;
+  width: 100px;
+  height: 100px;
+}
+```
+
+Graphs contain `r length(data$id)` samples.
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser, group=type, colour=typeName)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
 ggplot(means, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)

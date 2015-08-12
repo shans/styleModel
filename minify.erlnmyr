@@ -1,0 +1,7 @@
+digraph minify {
+  optionAliases="i=input.data;o=writeStringFile.filename";
+
+  input -> fileToJSON -> traceFilter -> jsonStringify -> writeStringFile;
+
+  traceFilter [traceEvents="['HTMLDocumentParser::processParsedChunkFromBackgroundParser','Document::updateStyle','FrameView::performLayout']"];
+}
