@@ -1,5 +1,9 @@
 digraph test {
   imports="['./style-phases']";
-  input -> fileToString -> ejsFabricator -> trace -> writeStringFile;
+  optionAliases="input=input.data";
+  input -> fileToString -> dateTag -> hostnameTag -> ejsFabricator -> mergeTags -> trace -> log -> jsonStringify -> writeStringFile;
 
+  mergeTags [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "traces/$1-$2-$3-$4.trace", output="filename"]
+  log [tags = "['filename']", justTags = "true"];
+  writeStringFile [tag="filename"];
 }
