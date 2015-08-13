@@ -107,7 +107,7 @@ basefit <- lm(nws$Document..updateStyle ~ poly(nws$count, 1, raw=TRUE))
 
 ws <- means[means$type == 1,]
 ws$Document..updateStyle = ws$Document..updateStyle - basefit$coefficients[1] - ws$count * basefit$coefficients[2];
-A <- matrix(c(ws$count, ws$count^2, ws$count^3), nrow=length(ws$count))
+A <- matrix(c(ws$count, ws$count^2), nrow=length(ws$count))
 fit <- nnls::nnls(A, ws$Document..updateStyle)
 ws$Document..updateStyle = ws$Document..updateStyle + basefit$coefficients[1] + ws$count * basefit$coefficients[2];
 
@@ -119,9 +119,85 @@ Without text nodes, the cost of updateStyle is linear, with an intercept of `r b
 ggplot(nws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_abline(intercept=basefit$coefficients[1], slope=basefit$coefficients[2])
 ```
 
-Introducing whitespace gives a cost that we assume fits a cubic with 0 intercept, and constrained positive parameters of `r fit$x`.
+Introducing whitespace gives a cost that we assume fits a quadratic with 0 intercept, and constrained positive parameters of `r fit$x`.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-ws$sample <- basefit$coefficients[1] + ws$count * (fit$x[1] + basefit$coefficients[2]) + ws$count^2 * fit$x[2] + ws$count^3 * fit$x[3]
+ws$sample <- basefit$coefficients[1] + ws$count * (fit$x[1] + basefit$coefficients[2]) + ws$count^2 * fit$x[2]
 ggplot(ws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_line(aes(y=sample), colour="black")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+data <- read.csv("nostyle.csv")
+data$count <- (data$id %/% 10) * 200
+data$type <- data$id %% 10
+means <- aggregate(data, list(data$id), FUN=mean)
+stdevs <- aggregate(data, list(data$id), FUN=sd)
+means$HDPpPCFBPsd <- stdevs$HTMLDocumentParser..processParsedChunkFromBackgroundParser
+means$DuSsd <- stdevs$Document..updateStyle
+means$FVpLsd <- stdevs$FrameView..performLayout
+
+data$typeName <- ifelse(data$type == 0, "no whitespace", "whitespace")
+means$typeName <- ifelse(means$type == 0, "no whitespace", "whitespace")
+```
+
+No style at all (with and without whitespace). Graphs contain `r length(data$id)` samples.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser, group=type, colour=typeName)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=FrameView..performLayout, group=type, colour=typeName)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+data <- read.csv("repeatRules.csv")
+data$count <- data$id * 200
+means <- aggregate(data, list(data$id), FUN=mean)
+stdevs <- aggregate(data, list(data$id), FUN=sd)
+means$HDPpPCFBPsd <- stdevs$HTMLDocumentParser..processParsedChunkFromBackgroundParser
+means$DuSsd <- stdevs$Document..updateStyle
+means$FVpLsd <- stdevs$FrameView..performLayout
+```
+
+The same repeated rule, applying to 1000 elements. Graphs contain `r length(data$id)` samples.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=Document..updateStyle)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=FrameView..performLayout)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+data <- read.csv("nonMatchingRules.csv")
+data$count <- data$id * 200
+means <- aggregate(data, list(data$id), FUN=mean)
+stdevs <- aggregate(data, list(data$id), FUN=sd)
+means$HDPpPCFBPsd <- stdevs$HTMLDocumentParser..processParsedChunkFromBackgroundParser
+means$DuSsd <- stdevs$Document..updateStyle
+means$FVpLsd <- stdevs$FrameView..performLayout
+```
+
+The same repeated rule with a different selector for each rule. One version applies to 1000 elements. Graphs contain `r length(data$id)` samples.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=Document..updateStyle)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=FrameView..performLayout)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+data <- read.csv("matchingRules.csv")
+data$count <- data$id * 200
+means <- aggregate(data, list(data$id), FUN=mean)
+stdevs <- aggregate(data, list(data$id), FUN=sd)
+means$HDPpPCFBPsd <- stdevs$HTMLDocumentParser..processParsedChunkFromBackgroundParser
+means$DuSsd <- stdevs$Document..updateStyle
+means$FVpLsd <- stdevs$FrameView..performLayout
+```
+
+The same repeated rule with a different selector for each rule. Each rule applies to a single element. Graphs contain `r length(data$id)` samples.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=Document..updateStyle)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=FrameView..performLayout)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
 ```
