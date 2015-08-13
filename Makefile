@@ -12,3 +12,7 @@ sample-styleTest:
 
 sample-styleTest2:
 	./node_modules/erlenmeyer/erlnmyr capture.erlnmyr --input=styleTest2.ejs --chromium=../chromium/src
+
+clean:
+	rm -r styleModel_files/
+	rm styleModel.md
