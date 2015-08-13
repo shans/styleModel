@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<style>
+.a {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+  }
+</style>
+<%
+list = []; for (i = 0; i < 10; i++) { list.push(i * 200); };
+list = list.map(function(x) { return function() { count=x; }});
+permutation(list);
+%>
+<% permutation([function() { ws = ""; }, function() { ws = " "; }]); %>
+<% repeat(count, function() { %><div class='a'></div><%= ws %><%}) %>
