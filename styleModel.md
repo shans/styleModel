@@ -23,6 +23,14 @@ As above, but without whitespace between divs (to avoid O(N^2) style). Graphs co
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-4-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-4-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-4-3.png)
 
-Looking at just whitespace. Graphs contain 120 samples.
+Looking at just whitespace. Graphs contain 180 samples.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-6-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-6-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-6-3.png)
+
+Without text nodes, the cost of updateStyle is linear, with an intercept of 296.2808081 and a slope of 1.7324411.
+
+![](styleModel_files/figure-markdown_github/unnamed-chunk-8-1.png)
+
+Introducing whitespace gives a cost that we assume fits a pure quadratic with a count^2 term of 0.0098904.
+
+![](styleModel_files/figure-markdown_github/unnamed-chunk-9-1.png)

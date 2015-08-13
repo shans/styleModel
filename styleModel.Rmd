@@ -99,3 +99,27 @@ ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroun
 ggplot(means, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
 ggplot(means, aes(x=count, y=FrameView..performLayout, group=type, colour=typeName)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
 ```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+nws <- means[means$type == 0,]
+basefit <- lm(nws$Document..updateStyle ~ poly(nws$count, 1, raw=TRUE))
+
+ws <- means[means$type == 1,]
+ws$Document..updateStyle = ws$Document..updateStyle - basefit$coefficients[1] - ws$count * basefit$coefficients[2];
+fit <- lm(ws$Document..updateStyle ~ 0 + I(ws$count^2))
+ws$Document..updateStyle = ws$Document..updateStyle + basefit$coefficients[1] + ws$count * basefit$coefficients[2];
+
+```
+
+Without text nodes, the cost of updateStyle is linear, with an intercept of `r basefit$coefficients[1]` and a slope of `r basefit$coefficients[2]`.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(nws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_abline(intercept=basefit$coefficients[1], slope=basefit$coefficients[2])
+```
+
+Introducing whitespace gives a cost that we assume fits a pure quadratic with a count^2 term of `r fit$coefficients[1]`.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ws$sample <- basefit$coefficients[1] + ws$count * ws$count * fit$coefficients[1]
+ggplot(ws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_line(aes(y=sample), colour="black")
+```
