@@ -107,7 +107,7 @@ basefit <- lm(nws$Document..updateStyle ~ poly(nws$count, 1, raw=TRUE))
 
 ws <- means[means$type == 1,]
 ws$Document..updateStyle = ws$Document..updateStyle - basefit$coefficients[1] - ws$count * basefit$coefficients[2];
-A <- matrix(c(ws$count, ws$count^2), nrow=length(ws$count))
+A <- matrix(c(ws$count, ws$count^2, ws$count^3), nrow=length(ws$count))
 fit <- nnls::nnls(A, ws$Document..updateStyle)
 ws$Document..updateStyle = ws$Document..updateStyle + basefit$coefficients[1] + ws$count * basefit$coefficients[2];
 
@@ -119,9 +119,9 @@ Without text nodes, the cost of updateStyle is linear, with an intercept of `r b
 ggplot(nws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_abline(intercept=basefit$coefficients[1], slope=basefit$coefficients[2])
 ```
 
-Introducing whitespace gives a cost that we assume fits a quadratic with 0 intercept, a constrained positive count term of `r abs(fit$x[1])`, and a count^2 term of `r fit$x[2]`.
+Introducing whitespace gives a cost that we assume fits a cubic with 0 intercept, and constrained positive parameters of `r fit$x`.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-ws$sample <- basefit$coefficients[1] + ws$count * fit$x[1] + ws$count * ws$count * fit$x[2]
+ws$sample <- basefit$coefficients[1] + ws$count * (fit$x[1] + basefit$coefficients[2]) + ws$count^2 * fit$x[2] + ws$count^3 * fit$x[3]
 ggplot(ws, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line() + geom_line(aes(y=sample), colour="black")
 ```

@@ -31,6 +31,6 @@ Without text nodes, the cost of updateStyle is linear, with an intercept of 296.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-Introducing whitespace gives a cost that we assume fits a quadratic with 0 intercept, a constrained positive count term of 0, and a count^2 term of 0.0098904.
+Introducing whitespace gives a cost that we assume fits a cubic with 0 intercept, and constrained positive parameters of 0, 0.0043433, 3.519683910^{-6}.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-9-1.png)
