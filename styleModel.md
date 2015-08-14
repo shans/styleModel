@@ -43,14 +43,18 @@ styleTest3
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-13-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-13-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-13-3.png)
 
-The same repeated rule, applying to 1000 elements. Graphs contain 100 samples.
+styleTest4
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-15-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-15-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-15-3.png)
 
-The same repeated rule with a different selector for each rule. One version applies to 1000 elements. Graphs contain 200 samples.
+The same repeated rule, applying to 1000 elements. Graphs contain 100 samples.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-17-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-17-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-17-3.png)
 
-The same repeated rule with a different selector for each rule. Each rule applies to a single element. Graphs contain 20 samples.
+The same repeated rule with a different selector for each rule. One version applies to 1000 elements. Graphs contain 200 samples.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-19-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-19-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-19-3.png)
+
+The same repeated rule with a different selector for each rule. Each rule applies to a single element. Graphs contain 20 samples.
+
+![](styleModel_files/figure-markdown_github/unnamed-chunk-21-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-21-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-21-3.png)
