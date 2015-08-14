@@ -39,22 +39,30 @@ No style at all (with and without whitespace). Graphs contain 460 samples.
 
 ![](styleModel_files/figure-markdown_github/unnamed-chunk-11-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-11-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-11-3.png)
 
+Without text nodes, the null cost of updateStyle is linear, with an intercept of 401.6719368 and a slope of 1.7092872.
+
+![](styleModel_files/figure-markdown_github/unnamed-chunk-13-1.png)
+
+Introducing whitespace gives a cost that we assume fits a quadratic with 0 intercept, and constrained positive parameters of 0, 0.0108944.
+
+![](styleModel_files/figure-markdown_github/unnamed-chunk-14-1.png)
+
 styleTest3
 
-![](styleModel_files/figure-markdown_github/unnamed-chunk-13-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-13-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-13-3.png)
+![](styleModel_files/figure-markdown_github/unnamed-chunk-16-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-16-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-16-3.png)
 
 styleTest4
 
-![](styleModel_files/figure-markdown_github/unnamed-chunk-15-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-15-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-15-3.png)
+![](styleModel_files/figure-markdown_github/unnamed-chunk-18-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-18-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-18-3.png)
 
 The same repeated rule, applying to 1000 elements. Graphs contain 100 samples.
 
-![](styleModel_files/figure-markdown_github/unnamed-chunk-17-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-17-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-17-3.png)
+![](styleModel_files/figure-markdown_github/unnamed-chunk-20-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-20-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-20-3.png)
 
 The same repeated rule with a different selector for each rule. One version applies to 1000 elements. Graphs contain 200 samples.
 
-![](styleModel_files/figure-markdown_github/unnamed-chunk-19-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-19-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-19-3.png)
+![](styleModel_files/figure-markdown_github/unnamed-chunk-22-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-22-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-22-3.png)
 
 The same repeated rule with a different selector for each rule. Each rule applies to a single element. Graphs contain 20 samples.
 
-![](styleModel_files/figure-markdown_github/unnamed-chunk-21-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-21-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-21-3.png)
+![](styleModel_files/figure-markdown_github/unnamed-chunk-24-1.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-24-2.png) ![](styleModel_files/figure-markdown_github/unnamed-chunk-24-3.png)
