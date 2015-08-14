@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<style>
+<%
+tildes = []; for (i = 0; i < 20; i++) { tildes.push(i); };
+tildes = tildes.map(function(x) { return function() { tcount=x; }});
+permutation(tildes);
+%>
+<% permutation([function() { %>
+  .c<% repeat(tcount, function() {%> ~ .c<%})%>
+<% }, function() { %>
+  .c<% repeat(tcount, function() {%> .c<%})%>
+<% }]); %>
+  {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+  }
+</style>
+
+<% repeat(100, function() { %><div class='b'><% repeat(20, function() { %><div class='c'><% }) %><% repeat(20, function() { %></div><% }) %><% repeat(20, function() { %><div class='c'></div><% }) %></div><%}) %>

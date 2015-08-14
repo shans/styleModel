@@ -149,6 +149,28 @@ ggplot(means, aes(x=count, y=FrameView..performLayout, group=type, colour=typeNa
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+data <- read.csv("styleTest3.csv")
+data$count <- (data$id %/% 10) * 200
+data$type <- data$id %% 10
+means <- aggregate(data, list(data$id), FUN=mean)
+stdevs <- aggregate(data, list(data$id), FUN=sd)
+means$HDPpPCFBPsd <- stdevs$HTMLDocumentParser..processParsedChunkFromBackgroundParser
+means$DuSsd <- stdevs$Document..updateStyle
+means$FVpLsd <- stdevs$FrameView..performLayout
+
+data$typeName <- ifelse(data$type == 0, "sibling", "child")
+means$typeName <- ifelse(means$type == 0, "sibling", "child")
+```
+
+styleTest3
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(means, aes(x=count, y=HTMLDocumentParser..processParsedChunkFromBackgroundParser, group=type, colour=typeName)) + geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser-HDPpPCFBPsd), linetype=2) +  geom_line(aes(y=HTMLDocumentParser..processParsedChunkFromBackgroundParser+HDPpPCFBPsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=Document..updateStyle, group=type, colour=typeName)) + geom_line(aes(y=Document..updateStyle-DuSsd), linetype=2) + geom_line(aes(y=Document..updateStyle+DuSsd), linetype=2) + geom_line(size=1.1)
+ggplot(means, aes(x=count, y=FrameView..performLayout, group=type, colour=typeName)) + geom_line(aes(y=FrameView..performLayout-FVpLsd), linetype=2) +geom_line(aes(y=FrameView..performLayout+FVpLsd), linetype=2) + geom_line(size=1.1)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 data <- read.csv("repeatRules.csv")
 data$count <- data$id * 200
 means <- aggregate(data, list(data$id), FUN=mean)
