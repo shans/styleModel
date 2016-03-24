@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<style>
+<%
+list = []; for (i = 0; i < 10; i++) { list.push(i * 200); };
+list = list.map(function(x) { return function() { count=x; } });
+permutation(list);
+%>
+:root {
+  <% repeat(count, function() { %>
+    --x<%= current %>: foo;
+  <% }) %>
+}
+<% repeat(1000, function() { %>
+.a<%= current %> {
+  --foo: bar;
+}
+<% }) %>
+</style>
+
+<% permutation([function() { %>
+<% repeat(1000, function() { %><div></div><% }) %>
+<% }, function() { %>
+<% repeat(1000, function() { %><div class='a<%= current %>'></div><% }) %>
+<% }]) %>

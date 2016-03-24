@@ -3,13 +3,17 @@ digraph test {
   optionAliases="input=input.data";
   input -> fileToString -> dateTag -> hostnameTag -> ejsFabricator -> trace -> mergeTags -> log -> jsonStringify -> writeStringFile;
   trace -> mergeTags_1 -> log_1 -> traceFilter -> jsonStringify_1 -> writeStringFile_1;
+  ejsFabricator -> mergeTags_2 -> log_2 -> writeStringFile_2;
 
   mergeTags [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "raw_traces/$1-$2-$3-$4.trace", output="filename"]
   mergeTags_1 [inputs = "['hostname', 'date', 'data','ejsFabricator']", spec = "traces/$1-$2-$3-$4.trace", output="filename"]
+  mergeTags_2 [inputs="['data', 'ejsFabricator']", spec="htmlFiles/$1-$2.html", output="filename"]
   log [tags = "['filename']", justTags = "true"];
   log_1 [tags = "['filename']", justTags = "true"];
+  log_2 [tags = "['filename']", justTags="true"];
   writeStringFile [tag="filename"];
   writeStringFile_1 [tag="filename"];
+  writeStringFile_2 [tag="filename"];
   traceFilter [traceEvents="['HTMLDocumentParser::processParsedChunkFromBackgroundParser','Document::updateStyle','FrameView::performLayout']"];
 
 }

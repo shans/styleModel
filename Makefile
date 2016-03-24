@@ -8,6 +8,7 @@ styleModel.md: styleModel.Rmd traces/*
 	./node_modules/erlenmeyer/erlnmyr process.erlnmyr --filter="/repeatRules.ejs/" > repeatRules.csv
 	./node_modules/erlenmeyer/erlnmyr process.erlnmyr --filter="/nonMatchingRules.ejs/" > nonMatchingRules.csv
 	./node_modules/erlenmeyer/erlnmyr process.erlnmyr --filter="/matchingRules.ejs/" > matchingRules.csv
+	./node_modules/erlenmeyer/erlnmyr process.erlnmyr --filter="/custom-properties-test-1.ejs/" > custom-properties-test-1.csv
 	R -e "rmarkdown::render(\"styleModel.Rmd\")"
 
 sample-nostyle:
@@ -37,6 +38,8 @@ sample-matchingRules:
 sample-nonMatchingRules:
 	./node_modules/erlenmeyer/erlnmyr capture.erlnmyr --input=nonMatchingRules.ejs --chromium=../chromium/src
 
+sample-custom-properties-1:
+	./node_modules/erlenmeyer/erlnmyr capture.erlnmyr --input=custom-properties-test-1.ejs --chromium=../chromium/src
 clean:
 	rm -r styleModel_files/
 	rm styleModel.md
